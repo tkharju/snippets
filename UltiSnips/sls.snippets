@@ -72,4 +72,17 @@ snippet pillar_get "get pillar value"
 {{ salt['pillar.get']('${1}', '${2: default}') }}
 endsnippet
 
+snippet var "create jinja variable"
+{% set ${1} = '${2}' %}
+endsnippet
 
+snippet cmd.run "run command"
+${1}-cmd:
+	cmd.run:
+		- name: ${2: $1}
+		- unless: ${3}
+		- creates: ${4}
+		- require:
+			- ${5}
+
+endsnippet
