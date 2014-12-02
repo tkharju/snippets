@@ -1,0 +1,117 @@
+snippet script "Template for new script" !b
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+	`!p snip.rv =snip.rv =  fn`: ${1}
+"""
+
+__author__ = "Tino Kiviharju <tino.kiviharju@gmail.com>"
+__license__ = "MIT"
+__date__ = "`date +%Y-%m-%d`"
+__version__ = "0.1"
+
+import logging
+LOG = logging.getLogger(__name__)
+
+
+def main():
+	"""Main section"""
+	${2:pass}
+
+if __name__ == "__main__":
+	main()
+
+# vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
+
+endsnippet
+
+
+snippet ss "Template for a new simple script" !b
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+${1}
+"""
+
+${2}
+
+# vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
+
+endsnippet
+
+snippet utf "Add utf8 header"
+# -*- coding: utf-8 -*-
+endsnippet
+
+snippet vim "Add vim modeline"
+# vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
+endsnippet
+
+snippet }ebug "Add LOG.debug"
+LOG.debug('$1', extra={'data': {'$2': $3}})
+endsnippet
+
+snippet info "Add LOG.info"
+LOG.info('$1', extra={'data': {'$2': $3}})
+endsnippet
+
+snippet warning "Add LOG.warning"
+LOG.warning('$1', extra={'data': {'$2': $3}})
+endsnippet
+
+snippet error "Add LOG.error"
+LOG.error('$1', extra={'data': {'$2': $3}})
+endsnippet
+
+snippet LOG "Add logging"
+import logging
+LOG = logging.getLogger(__name__)
+endsnippet
+
+snippet TODO "Add #TODO comment"
+# TODO: ${1} // `date +%Y-%m-%d` Tino Kiviharju  
+endsnippet
+
+snippet FIXME "Add #FIXME comment"
+# FIXME: ${1} // `date +%Y-%m-%d` Tino Kiviharju  
+endsnippet
+
+snippet ae "Assert equal" b
+self.assertEqual(${1:first}, ${2:second})
+endsnippet
+
+snippet at "Assert True" b
+self.assertTrue(${0:exp})
+endsnippet
+
+snippet af "Assert False" b
+self.assertFalse(${1:expression})
+endsnippet
+
+snippet aae "Assert almost equal" b
+self.assertAlmostEqual(${1:first}, ${2:second})
+endsnippet
+
+snippet ar "Assert raises" b
+self.assertRaises(${1:exception}, ${2:func}${3/.+/, /}${3:arguments})
+endsnippet
+
+snippet def "def with docstrings"
+def ${1:function}(self, ${2:parameter}, *args, **kwargs):
+  """${3:One-line doc of the method}.
+  
+  :param $2: ${4: parameter description}
+  :returns: ${5}
+  """
+
+  ${6}
+endsnippet
+
+snippet test "test def with docstrings"
+def test_${1:function}(self):
+  """Test ${2:something is working}."""
+  ${3}
+endsnippet
+

@@ -1,0 +1,75 @@
+snippet file.managed "salt file managed"
+${1}:
+	file.managed:
+		- source: salt://${2}/${3}
+		- user: ${4:root}
+		- group: ${5:root}
+		- mode: ${6:0644}
+		- template: jinja
+
+endsnippet
+
+snippet service "service"
+${1}:
+	service:
+		- name: $1
+		- running
+		- enable: True
+		- reload: True
+		- watch:
+			- pkg: $1
+
+endsnippet
+
+snippet user "user" 
+${1}:
+	user.present:
+		- fullname: ${2}
+		- shell: /bin/bash
+		- home: /home/$1
+		- groups:
+			- wheel
+
+endsnippet
+
+snippet require "require"
+- require:
+	- ${1}: ${2}
+endsnippet
+
+snippet require_in "require_in"
+- require_in:
+	- ${1}: ${2}
+endsnippet
+
+snippet watch "watch"
+- watch:
+	- ${1}: ${2}
+endsnippet
+
+snippet watch_in "watch_in"
+- watch_in:
+	- ${1}: ${2}
+endsnippet
+
+snippet pkgs "multiple packages"
+${1}-packages:
+	pkg.installed:
+		-pkgs:
+			- $1: ${2: version}
+
+endsnippet
+
+snippet pkg "package"
+${1}-pkg:
+	pkg.installed:
+		- name: $1
+		- version: ${2: version}
+
+endsnippet
+
+snippet pillar_get "get pillar value"
+{{ salt['pillar.get']('${1}', '${2: default}') }}
+endsnippet
+
+
