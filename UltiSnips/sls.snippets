@@ -86,3 +86,17 @@ ${1}-cmd:
 			- ${5}
 
 endsnippet
+
+snippet cron.present "create cron entry"
+${1}-cron:
+	cron.present:
+		- name: ${2: command to be run}
+		- user: ${3: root}
+		- minute: ${4: *}
+		- hour: ${5: *}
+		- daymonth: ${6: *}
+		- month: ${7: *}
+		- dayweek: ${8: *}
+		- comment: ${9}
+
+endsnippet
