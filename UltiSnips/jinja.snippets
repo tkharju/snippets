@@ -1,0 +1,20 @@
+snippet map "mappings for different operating systems"
+{% set ${1} = salt['grains.filter_by']({
+    'default': {
+			'pkg': '${2: $1}',
+			'service': '${3: $1}',
+    },
+    'Debian': {
+			'pkg': '${4: $1}',
+			'service': '${5: $1}',
+    },
+    'Gentoo': {
+			'pkg': '${6: $1}',
+			'service': '${7: $1}',
+    },
+    'FreeBSD': {
+			'pkg': '${8: $1}',
+			'service': '${9: $1}',
+    },
+}, merge=salt['pillar.get']('$1:lookup')) %}
+endsnippet
