@@ -113,8 +113,7 @@ endsnippet
 
 snippet stack "Setup package + service"
 ${1}:
-	pkg:
-		- installed
+	pkg.installed:
 		- name: ${2:$1}
 	service:
 		- name: ${3:$1}

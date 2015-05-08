@@ -1,3 +1,12 @@
 snippet - [ "add task"
 - [ ] ${1}
 endsnippet
+
+snippet t "Create task"
+- [ ] $1
+endsnippet
+
+snippet link "Make selected txt a link"
+\`${1:${VISUAL:link}} <${2:$1.rst}>\`_
+endsnippet
+
