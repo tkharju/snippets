@@ -140,3 +140,11 @@ snippet pillar.get "insert pillar get in jinja format" i
 {{ salt['pillar.get']('${1}', '${2:default}') }}
 endsnippet
 
+snippet pkgrepo "debian package repo"
+${1}-repo:
+	pkgrepo.managed:
+		- humanname: ${2}
+		- name: ${3: deb ...}
+		- dist: ${4:trusty}
+		- key_url: ${5:gpgkey url}
+endsnippet
