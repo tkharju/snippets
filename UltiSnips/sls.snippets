@@ -1,6 +1,7 @@
-snippet file.managed "salt file managed"
+snippet file "salt file managed"
 ${1}:
 	file.managed:
+    - name: $1
 		- source: salt://${2}/${3}
 		- user: ${4:root}
 		- group: ${5:root}
@@ -9,27 +10,58 @@ ${1}:
 
 endsnippet
 
-snippet service "service"
+snippet directory "directory"
 ${1}:
-	service:
+	file.directory:
+    - name: $1
+		- user: ${2:root}
+		- group: ${3:root}
+		- dir_mode: ${4:755}
+		- file_mode: ${5:644}
+		- recurse:
+			- user
+			- group
+			- mode
+
+endsnippet
+
+snippet service "service"
+${1}-service:
+	service.running:
 		- name: $1
-		- running
 		- enable: True
 		- reload: True
-		- watch:
+		- listen:
 			- pkg: $1
 
 endsnippet
 
 snippet user "user" 
-${1}:
+${1}-user:
 	user.present:
 		- fullname: ${2}
-		- shell: /bin/bash
+		- shell: /bin/zsh
+		- createhome: True
 		- home: /home/$1
+		- remove_groups: False
+		- enforce_password: False
 		- groups:
-			- wheel
+			- root
+		- require:
+		  - pkg: zsh
 
+endsnippet
+
+snippet include "include"
+include:
+  - ${1}
+endsnippet
+
+snippet sysctl "sysctl"
+${1}:
+  sysctl.present:
+	  - name: $1
+		- value: ${2}
 endsnippet
 
 snippet require "require"
@@ -52,10 +84,20 @@ snippet watch_in "watch_in"
 	- ${1}: ${2}
 endsnippet
 
+snippet listen "listen"
+- listen:
+	- ${1}: ${2}
+endsnippet
+
+snippet listen_in "listen_in"
+- listen_in:
+	- ${1}: ${2}
+endsnippet
+
 snippet pkgs "multiple packages"
 ${1}-packages:
 	pkg.installed:
-		-pkgs:
+		- pkgs:
 			- $1: ${2:version}
 
 endsnippet
@@ -64,7 +106,6 @@ snippet pkg "package"
 ${1}-pkg:
 	pkg.installed:
 		- name: $1
-		- version: ${2:version}
 
 endsnippet
 
@@ -76,7 +117,7 @@ snippet var "create jinja variable"
 {% set ${1} = '${2}' %}
 endsnippet
 
-snippet cmd.run "run command"
+snippet cmd "run command"
 ${1}-cmd:
 	cmd.run:
 		- name: ${2:$1}
@@ -87,7 +128,7 @@ ${1}-cmd:
 
 endsnippet
 
-snippet cron.present "create cron entry"
+snippet cron "create cron entry"
 ${1}-cron:
 	cron.present:
 		- name: ${2: command to be run}
@@ -115,35 +156,32 @@ snippet stack "Setup package + service"
 ${1}:
 	pkg.installed:
 		- name: ${2:$1}
-	service:
+	service.running:
 		- name: ${3:$1}
 		- enable: True
-		- running
 
 $1-conf:
-	file:
-		- managed
+	file.managed:
 		- name: /etc/$1.conf
 		- source: salt://$1/$1.conf
 		- template: jinja
-		- watch_in:
+		- listen_in:
 			- service: $1
 
 endsnippet
 
 snippet {%
-{% ${1} %
+{% ${1} %}
 endsnippet
 
 snippet pillar.get "insert pillar get in jinja format" i
 {{ salt['pillar.get']('${1}', '${2:default}') }}
 endsnippet
 
-snippet pkgrepo "debian package repo"
+snippet repo "debian package repo"
 ${1}-repo:
 	pkgrepo.managed:
-		- humanname: ${2}
-		- name: ${3: deb ...}
-		- dist: ${4:trusty}
+		- name: ${3:deb ...}
+		- dist: ${4:xenial}
 		- key_url: ${5:gpgkey url}
 endsnippet
